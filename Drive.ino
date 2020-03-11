@@ -1,11 +1,3 @@
-uint16_t xAxy = 0;
-uint16_t yAxy = 0;
-uint8_t deadZone = 10;
-uint16_t xValue = 0;
-uint16_t yValue = 0;
-uint16_t rOutput = 0;
-uint16_t lOutput = 0;
-
 void drive() {
     readControll();
     normallizer();

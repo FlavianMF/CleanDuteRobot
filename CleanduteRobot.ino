@@ -21,6 +21,16 @@ uint8_t pwm = 0;
 uint16_t rawPotentiometer = 0;
 uint8_t velocity = 0;
 
+uint16_t xAxy = 0;
+uint16_t yAxy = 0;
+uint8_t deadZone = 10;
+
+uint16_t xValue = 0;
+uint16_t yValue = 0;
+
+uint16_t rOutput = 0;
+uint16_t lOutput = 0;
+
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 
 void RodaDireitaFrente(int PWM = pwm);
@@ -40,6 +50,8 @@ void setup() {
 void loop() {
     drive();
     brush();
+    showInfos();
+    debug();
 }
 
 void setupPins() {
@@ -62,4 +74,25 @@ uint16_t readPotentiometer() { return analogRead(potentiometerPin); }
 
 uint8_t normallizerPotentiometer(uint16_t potentiometerValue) {
     return map(potentiometerValue, 0, 1023, 0, maxBrushVelocity);
+}
+
+void showInfos(){
+    lcd.clear();
+    lcd.setCursor(1, 0);
+    lcd.print("Brush Vel: ");
+    lcd.print(velocity);
+    lcd.setCursor(1, 1);
+    lcd.print("Robot Vel: ");
+    lcd.print(pwm);
+}
+
+void debug(){
+    Serial.print("Brush Vel: ");
+    Serial.print(velocity);
+    Serial.print("\tRobot Vel: ");
+    Serial.print(pwm);
+    Serial.print("\tJoyX: ");
+    Serial.print(xAxy);
+    Serial.print("\tJoyY: ");
+    Serial.print(yAxy);
 }
