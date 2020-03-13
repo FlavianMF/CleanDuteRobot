@@ -9,27 +9,27 @@
 #define lPWM_R 9
 #define lPWM_L 10
 
-#define brushPin 4
+#define brushPin 3
 
 #define potentiometerPin A0
 
-#define joystickXaxy A1
-#define joystickYaxy A2
+#define joystickXaxy A6
+#define joystickYaxy A7
 
-uint8_t pwm = 0;
+int pwm = 0;
 
-uint16_t rawPotentiometer = 0;
-uint8_t velocity = 0;
+int rawPotentiometer = 0;
+int velocity = 0;
 
-uint16_t xAxy = 0;
-uint16_t yAxy = 0;
-uint8_t deadZone = 10;
+int xAxy = 0;
+int yAxy = 0;
+int deadZone = 10;
 
-uint16_t xValue = 0;
-uint16_t yValue = 0;
+int xValue = 0;
+int yValue = 0;
 
-uint16_t rOutput = 0;
-uint16_t lOutput = 0;
+int rOutput = 0;
+int lOutput = 0;
 
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 
@@ -52,6 +52,7 @@ void loop() {
     brush();
     showInfos();
     debug();
+    delay(10);
 }
 
 void setupPins() {
@@ -61,22 +62,24 @@ void setupPins() {
     pinMode(lPWM_L, OUTPUT);
 }
 void brush() {
+    getVelocity();
+    analogWrite(5, 0);
     analogWrite(brushPin, velocity);
 }
 
-uint8_t getVelocity() {
+void getVelocity() {
     rawPotentiometer = readPotentiometer();
-    if (rawPotentiometer > 1023 || rawPotentiometer < 0) rawPotentiometer = 0;
+    if (rawPotentiometer > 900 || rawPotentiometer < 0) rawPotentiometer = 0;
     velocity = normallizerPotentiometer(rawPotentiometer);
 }
 
 uint16_t readPotentiometer() { return analogRead(potentiometerPin); }
 
 uint8_t normallizerPotentiometer(uint16_t potentiometerValue) {
-    return map(potentiometerValue, 0, 1023, 0, maxBrushVelocity);
+    return map(potentiometerValue, 0, 900, 0, maxBrushVelocity);
 }
 
-void showInfos(){
+void showInfos() {
     lcd.clear();
     lcd.setCursor(1, 0);
     lcd.print("Brush Vel: ");
@@ -86,8 +89,10 @@ void showInfos(){
     lcd.print(pwm);
 }
 
-void debug(){
-    Serial.print("Brush Vel: ");
+void debug() {
+    Serial.print("Raw Pot: ");
+    Serial.print(rawPotentiometer);
+    Serial.print("\tBrush Vel: ");
     Serial.print(velocity);
     Serial.print("\tRobot Vel: ");
     Serial.print(pwm);
@@ -95,4 +100,9 @@ void debug(){
     Serial.print(xAxy);
     Serial.print("\tJoyY: ");
     Serial.print(yAxy);
+    Serial.print("\tlOutput: ");
+    Serial.print(lOutput);
+    Serial.print("\trOutput: ");
+    Serial.print(rOutput);
+    Serial.println();
 }
