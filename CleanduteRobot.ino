@@ -1,6 +1,14 @@
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
 
+
+#define motorRPM 98
+#define motorRPS motorRPM/60
+
+// #define wheelDiameterInMeters 0.1
+#define wheelRayInMeters 0.05
+#define wheelCircumference wheelRayInMeters*2*PI
+
 #define maxVelocity 254
 #define maxBrushVelocity 254
 
@@ -17,7 +25,11 @@
 #define joystickXaxy A6
 #define joystickYaxy A7
 
+uint64_t timer = 0;
+
 int pwm = 0;
+
+double displacementInMeters = 0;
 
 int rawPotentiometer = 0;
 int velocity = 0;
@@ -46,6 +58,7 @@ void setup() {
 
   lcd.begin(16, 2);
   lcd.setBacklight(HIGH);
+  timer = millis();
 }
 
 void loop() {
@@ -90,8 +103,8 @@ void showInfos() {
   lcd.print("Brush Vel: ");
   lcd.print(velocity);
   lcd.setCursor(1, 1);
-  lcd.print("Robot Vel: ");
-  lcd.print(pwm);
+  lcd.print("Displacement: ");
+  lcd.print(displacementInMeters);
 }
 
 void debug() {
@@ -109,5 +122,7 @@ void debug() {
   Serial.print(lOutput);
   Serial.print("\trOutput: ");
   Serial.print(rOutput);
+  Serial.print("\tDisplacement: ");
+  Serial.print(displacementInMeters);
   Serial.println();
 }

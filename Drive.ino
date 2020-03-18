@@ -3,6 +3,7 @@ void drive() {
   normallizer();
   mix();
   motorControll();
+  hodometer();
 }
 
 void readControll() {
@@ -49,5 +50,14 @@ void motorControll() {
     rOutput *= -1;
   } else {
     RodaDireitaPara();
+  }
+}
+
+void hodometer() {
+  if (lOutput > 0 && rOutput > 0) {
+    if (millis() > timer + 1000) {
+      timer = millis();
+      displacementInMeters += wheelCircumference;
+    }
   }
 }
