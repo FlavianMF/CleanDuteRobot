@@ -103,7 +103,7 @@ void getVelocity() {
 uint16_t readPotentiometer() { return analogRead(potentiometerPin); }
 
 uint8_t normallizerPotentiometer(uint16_t potentiometerValue) {
-  return map(potentiometerValue, 0, 900, 0, maxBrushVelocity);
+  return map(potentiometerValue, minRangePotentiometer, maxRangePotentiometer, 0, maxBrushVelocity);
 }
 
 void showInfos() {
