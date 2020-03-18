@@ -15,6 +15,12 @@
 #define maxRangePotentiometer 1023
 #define minRangePotentiometer 0
 
+#define maxXRangeJoystick 900
+#define minXRangeJoystick 0
+
+#define maxYRangeJoystick 900
+#define minYRangeJoystick 0
+
 #define rPWM_R 3
 #define rPWM_L 5
 #define lPWM_R 6
@@ -84,14 +90,14 @@ void setupPins() {
 }
 void brush() {
   getVelocity();
-  analogWrite(bPWM_L, velocity);
+  analogWrite(bPWM_L, brushVelocity);
   analogWrite(bPWM_R, 0);
 }
 
 void getVelocity() {
   rawPotentiometer = readPotentiometer();
   if (rawPotentiometer > maxRangePotentiometer || rawPotentiometer < minRangePotentiometer) rawPotentiometer = 0;
-  brishVelocity = normallizerPotentiometer(rawPotentiometer);
+  brushVelocity = normallizerPotentiometer(rawPotentiometer);
 }
 
 uint16_t readPotentiometer() { return analogRead(potentiometerPin); }

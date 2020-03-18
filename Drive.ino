@@ -19,8 +19,8 @@ void readControll() {
 }
 
 void normallizer() {
-  xValue = map(xAxy, 0, 900, -maxVelocity, maxVelocity);
-  yValue = map(yAxy, 0, 900, maxVelocity, -maxVelocity);
+  xValue = map(xAxy, minXRangeJoystick, maxXRangeJoystick, -maxVelocity, maxVelocity);
+  yValue = map(yAxy, minYRangeJoystick, maxYRangeJoystick, maxVelocity, -maxVelocity);
 }
 
 void mix() {
