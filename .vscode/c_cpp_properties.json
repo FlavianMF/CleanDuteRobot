@@ -9,7 +9,7 @@
                 "C:\\Program Files (x86)\\Arduino\\**",
                 "C:\\Users\\flavi\\OneDrive\\Documents\\Arduino\\libraries\\**",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\**",
-                "C:\\Users\\flavi\\OneDrive\\Documents\\Arduino\\libraries\\NewliquidCrystal",
+                "C:\\Users\\flavi\\OneDrive\\Documents\\Arduino\\libraries\\NewliquidCrystal\\**",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino"
             ],
             "forcedInclude": [
