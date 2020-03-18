@@ -12,6 +12,9 @@
 #define maxVelocity 254
 #define maxBrushVelocity 254
 
+#define maxRangePotentiometer 1023
+#define minRangePotentiometer 0
+
 #define rPWM_R 3
 #define rPWM_L 5
 #define lPWM_R 6
@@ -32,7 +35,7 @@ int pwm = 0;
 double displacementInMeters = 0;
 
 int rawPotentiometer = 0;
-int velocity = 0;
+int brushVelocity = 0;
 
 int xAxy = 0;
 int yAxy = 0;
@@ -87,8 +90,8 @@ void brush() {
 
 void getVelocity() {
   rawPotentiometer = readPotentiometer();
-  if (rawPotentiometer > 900 || rawPotentiometer < 0) rawPotentiometer = 0;
-  velocity = normallizerPotentiometer(rawPotentiometer);
+  if (rawPotentiometer > maxRangePotentiometer || rawPotentiometer < minRangePotentiometer) rawPotentiometer = 0;
+  brishVelocity = normallizerPotentiometer(rawPotentiometer);
 }
 
 uint16_t readPotentiometer() { return analogRead(potentiometerPin); }
@@ -101,7 +104,7 @@ void showInfos() {
   lcd.clear();
   lcd.setCursor(1, 0);
   lcd.print("Brush Vel: ");
-  lcd.print(velocity);
+  lcd.print(brushVelocity);
   lcd.setCursor(1, 1);
   lcd.print("Displacement: ");
   lcd.print(displacementInMeters);
@@ -111,9 +114,7 @@ void debug() {
   Serial.print("Raw Pot: ");
   Serial.print(rawPotentiometer);
   Serial.print("\tBrush Vel: ");
-  Serial.print(velocity);
-  Serial.print("\tRobot Vel: ");
-  Serial.print(pwm);
+  Serial.print(brushVelocity);
   Serial.print("\tJoyX: ");
   Serial.print(xAxy);
   Serial.print("\tJoyY: ");
